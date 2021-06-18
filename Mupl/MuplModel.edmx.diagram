@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="6b38fe670687454aa0b3ca86db5bfe7b" Name="Diagram1">
+        <EntityTypeShape EntityType="muplModel.album" Width="1.5" PointX="3" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="muplModel.genre" Width="1.5" PointX="9.625" PointY="3.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="muplModel.label" Width="1.5" PointX="0.75" PointY="3.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="muplModel.performer" Width="1.5" PointX="3" PointY="3.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="muplModel.sysdiagrams" Width="1.5" PointX="0.75" PointY="7.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="muplModel.track" Width="1.5" PointX="5.25" PointY="3.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="muplModel.track_genre" Width="1.5" PointX="7.5" PointY="3.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="muplModel.user_track" Width="1.5" PointX="7.5" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="muplModel.users" Width="1.5" PointX="5.25" PointY="7.875" IsExpanded="true" />
+        <AssociationConnector Association="muplModel.FK_track_album" ManuallyRouted="false" />
+        <AssociationConnector Association="muplModel.FK_track_genre_genre" ManuallyRouted="false" />
+        <AssociationConnector Association="muplModel.FK_performer_label" ManuallyRouted="false" />
+        <AssociationConnector Association="muplModel.FK_track_performer" ManuallyRouted="false" />
+        <AssociationConnector Association="muplModel.FK_track_genre_track" ManuallyRouted="false" />
+        <AssociationConnector Association="muplModel.FK_user_track_track" ManuallyRouted="false" />
+        <AssociationConnector Association="muplModel.FK_user_track_users" ManuallyRouted="false" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

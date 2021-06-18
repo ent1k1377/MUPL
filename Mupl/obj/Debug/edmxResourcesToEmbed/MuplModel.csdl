@@ -1,0 +1,223 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="muplModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+  <EntityType Name="album">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="name" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="album_type" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="photo" Type="String" MaxLength="300" FixedLength="false" Unicode="false" Nullable="false" />
+    <NavigationProperty Name="track" Relationship="Self.FK_track_album" FromRole="album" ToRole="track" />
+  </EntityType>
+  <EntityType Name="genre">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="name" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
+    <NavigationProperty Name="track_genre" Relationship="Self.FK_track_genre_genre" FromRole="genre" ToRole="track_genre" />
+  </EntityType>
+  <EntityType Name="label">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="name" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="description" Type="String" MaxLength="300" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="photo" Type="String" MaxLength="1000" FixedLength="false" Unicode="false" Nullable="false" />
+    <NavigationProperty Name="performer" Relationship="Self.FK_performer_label" FromRole="label" ToRole="performer" />
+  </EntityType>
+  <EntityType Name="performer">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="id_label" Type="Int32" Nullable="false" />
+    <Property Name="name" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="description" Type="String" MaxLength="300" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="photo" Type="String" MaxLength="1000" FixedLength="false" Unicode="false" Nullable="false" />
+    <NavigationProperty Name="label" Relationship="Self.FK_performer_label" FromRole="performer" ToRole="label" />
+    <NavigationProperty Name="track" Relationship="Self.FK_track_performer" FromRole="performer" ToRole="track" />
+  </EntityType>
+  <EntityType Name="sysdiagrams">
+    <Key>
+      <PropertyRef Name="diagram_id" />
+    </Key>
+    <Property Name="name" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="principal_id" Type="Int32" Nullable="false" />
+    <Property Name="diagram_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="version" Type="Int32" />
+    <Property Name="definition" Type="Binary" MaxLength="Max" FixedLength="false" />
+  </EntityType>
+  <EntityType Name="track">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="id_performer" Type="Int32" Nullable="false" />
+    <Property Name="id_album" Type="Int32" Nullable="false" />
+    <Property Name="name" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="path" Type="String" MaxLength="1000" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="date" Type="DateTime" Nullable="false" Precision="0" />
+    <NavigationProperty Name="album" Relationship="Self.FK_track_album" FromRole="track" ToRole="album" />
+    <NavigationProperty Name="performer" Relationship="Self.FK_track_performer" FromRole="track" ToRole="performer" />
+    <NavigationProperty Name="track_genre" Relationship="Self.FK_track_genre_track" FromRole="track" ToRole="track_genre" />
+    <NavigationProperty Name="user_track" Relationship="Self.FK_user_track_track" FromRole="track" ToRole="user_track" />
+  </EntityType>
+  <EntityType Name="track_genre">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="id_track" Type="Int32" Nullable="false" />
+    <Property Name="id_genre" Type="Int32" Nullable="false" />
+    <NavigationProperty Name="genre" Relationship="Self.FK_track_genre_genre" FromRole="track_genre" ToRole="genre" />
+    <NavigationProperty Name="track" Relationship="Self.FK_track_genre_track" FromRole="track_genre" ToRole="track" />
+  </EntityType>
+  <EntityType Name="user_track">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="id_user" Type="Int32" Nullable="false" />
+    <Property Name="id_track" Type="Int32" Nullable="false" />
+    <NavigationProperty Name="track" Relationship="Self.FK_user_track_track" FromRole="user_track" ToRole="track" />
+    <NavigationProperty Name="users" Relationship="Self.FK_user_track_users" FromRole="user_track" ToRole="users" />
+  </EntityType>
+  <EntityType Name="users">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="login" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="password" Type="String" MaxLength="300" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="role" Type="String" MaxLength="10" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="photo" Type="String" MaxLength="300" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="email" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
+    <NavigationProperty Name="user_track" Relationship="Self.FK_user_track_users" FromRole="users" ToRole="user_track" />
+  </EntityType>
+  <Association Name="FK_track_album">
+    <End Role="album" Type="Self.album" Multiplicity="1" />
+    <End Role="track" Type="Self.track" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="album">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="track">
+        <PropertyRef Name="id_album" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_track_genre_genre">
+    <End Role="genre" Type="Self.genre" Multiplicity="1" />
+    <End Role="track_genre" Type="Self.track_genre" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="genre">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="track_genre">
+        <PropertyRef Name="id_genre" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_performer_label">
+    <End Role="label" Type="Self.label" Multiplicity="1" />
+    <End Role="performer" Type="Self.performer" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="label">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="performer">
+        <PropertyRef Name="id_label" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_track_performer">
+    <End Role="performer" Type="Self.performer" Multiplicity="1" />
+    <End Role="track" Type="Self.track" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="performer">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="track">
+        <PropertyRef Name="id_performer" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_track_genre_track">
+    <End Role="track" Type="Self.track" Multiplicity="1" />
+    <End Role="track_genre" Type="Self.track_genre" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="track">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="track_genre">
+        <PropertyRef Name="id_track" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_user_track_track">
+    <End Role="track" Type="Self.track" Multiplicity="1" />
+    <End Role="user_track" Type="Self.user_track" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="track">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="user_track">
+        <PropertyRef Name="id_track" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_user_track_users">
+    <End Role="users" Type="Self.users" Multiplicity="1" />
+    <End Role="user_track" Type="Self.user_track" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="users">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="user_track">
+        <PropertyRef Name="id_user" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="muplEntities" annotation:LazyLoadingEnabled="true">
+    <EntitySet Name="album" EntityType="Self.album" />
+    <EntitySet Name="genre" EntityType="Self.genre" />
+    <EntitySet Name="label" EntityType="Self.label" />
+    <EntitySet Name="performer" EntityType="Self.performer" />
+    <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" />
+    <EntitySet Name="track" EntityType="Self.track" />
+    <EntitySet Name="track_genre" EntityType="Self.track_genre" />
+    <EntitySet Name="user_track" EntityType="Self.user_track" />
+    <EntitySet Name="users" EntityType="Self.users" />
+    <AssociationSet Name="FK_track_album" Association="Self.FK_track_album">
+      <End Role="album" EntitySet="album" />
+      <End Role="track" EntitySet="track" />
+    </AssociationSet>
+    <AssociationSet Name="FK_track_genre_genre" Association="Self.FK_track_genre_genre">
+      <End Role="genre" EntitySet="genre" />
+      <End Role="track_genre" EntitySet="track_genre" />
+    </AssociationSet>
+    <AssociationSet Name="FK_performer_label" Association="Self.FK_performer_label">
+      <End Role="label" EntitySet="label" />
+      <End Role="performer" EntitySet="performer" />
+    </AssociationSet>
+    <AssociationSet Name="FK_track_performer" Association="Self.FK_track_performer">
+      <End Role="performer" EntitySet="performer" />
+      <End Role="track" EntitySet="track" />
+    </AssociationSet>
+    <AssociationSet Name="FK_track_genre_track" Association="Self.FK_track_genre_track">
+      <End Role="track" EntitySet="track" />
+      <End Role="track_genre" EntitySet="track_genre" />
+    </AssociationSet>
+    <AssociationSet Name="FK_user_track_track" Association="Self.FK_user_track_track">
+      <End Role="track" EntitySet="track" />
+      <End Role="user_track" EntitySet="user_track" />
+    </AssociationSet>
+    <AssociationSet Name="FK_user_track_users" Association="Self.FK_user_track_users">
+      <End Role="users" EntitySet="users" />
+      <End Role="user_track" EntitySet="user_track" />
+    </AssociationSet>
+  </EntityContainer>
+</Schema>

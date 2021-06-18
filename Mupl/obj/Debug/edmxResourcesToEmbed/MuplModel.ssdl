@@ -1,0 +1,209 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="Хранилище muplModel" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityType Name="album">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="name" Type="varchar" MaxLength="100" Nullable="false" />
+    <Property Name="album_type" Type="varchar" MaxLength="50" Nullable="false" />
+    <Property Name="photo" Type="varchar" MaxLength="300" Nullable="false" />
+  </EntityType>
+  <EntityType Name="genre">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="name" Type="varchar" MaxLength="100" Nullable="false" />
+  </EntityType>
+  <EntityType Name="label">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="name" Type="varchar" MaxLength="100" Nullable="false" />
+    <Property Name="description" Type="varchar" MaxLength="300" Nullable="false" />
+    <Property Name="photo" Type="varchar" MaxLength="1000" Nullable="false" />
+  </EntityType>
+  <EntityType Name="performer">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="id_label" Type="int" Nullable="false" />
+    <Property Name="name" Type="varchar" MaxLength="100" Nullable="false" />
+    <Property Name="description" Type="varchar" MaxLength="300" Nullable="false" />
+    <Property Name="photo" Type="varchar" MaxLength="1000" Nullable="false" />
+  </EntityType>
+  <EntityType Name="sysdiagrams">
+    <Key>
+      <PropertyRef Name="diagram_id" />
+    </Key>
+    <Property Name="name" Type="nvarchar" MaxLength="128" Nullable="false" />
+    <Property Name="principal_id" Type="int" Nullable="false" />
+    <Property Name="diagram_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="version" Type="int" />
+    <Property Name="definition" Type="varbinary(max)" />
+  </EntityType>
+  <EntityType Name="track">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="id_performer" Type="int" Nullable="false" />
+    <Property Name="id_album" Type="int" Nullable="false" />
+    <Property Name="name" Type="varchar" MaxLength="100" Nullable="false" />
+    <Property Name="path" Type="varchar" MaxLength="1000" Nullable="false" />
+    <Property Name="date" Type="date" Nullable="false" />
+  </EntityType>
+  <EntityType Name="track_genre">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="id_track" Type="int" Nullable="false" />
+    <Property Name="id_genre" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="user_track">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="id_user" Type="int" Nullable="false" />
+    <Property Name="id_track" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="users">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="login" Type="varchar" MaxLength="100" Nullable="false" />
+    <Property Name="password" Type="varchar" MaxLength="300" Nullable="false" />
+    <Property Name="role" Type="varchar" MaxLength="10" Nullable="false" />
+    <Property Name="photo" Type="varchar" MaxLength="300" Nullable="false" />
+    <Property Name="email" Type="varchar" MaxLength="100" Nullable="false" />
+  </EntityType>
+  <Association Name="FK_performer_label">
+    <End Role="label" Type="Self.label" Multiplicity="1" />
+    <End Role="performer" Type="Self.performer" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="label">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="performer">
+        <PropertyRef Name="id_label" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_track_album">
+    <End Role="album" Type="Self.album" Multiplicity="1" />
+    <End Role="track" Type="Self.track" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="album">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="track">
+        <PropertyRef Name="id_album" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_track_genre_genre">
+    <End Role="genre" Type="Self.genre" Multiplicity="1" />
+    <End Role="track_genre" Type="Self.track_genre" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="genre">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="track_genre">
+        <PropertyRef Name="id_genre" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_track_genre_track">
+    <End Role="track" Type="Self.track" Multiplicity="1" />
+    <End Role="track_genre" Type="Self.track_genre" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="track">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="track_genre">
+        <PropertyRef Name="id_track" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_track_performer">
+    <End Role="performer" Type="Self.performer" Multiplicity="1" />
+    <End Role="track" Type="Self.track" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="performer">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="track">
+        <PropertyRef Name="id_performer" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_user_track_track">
+    <End Role="track" Type="Self.track" Multiplicity="1" />
+    <End Role="user_track" Type="Self.user_track" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="track">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="user_track">
+        <PropertyRef Name="id_track" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_user_track_users">
+    <End Role="users" Type="Self.users" Multiplicity="1" />
+    <End Role="user_track" Type="Self.user_track" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="users">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="user_track">
+        <PropertyRef Name="id_user" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="Хранилище muplModelContainer">
+    <EntitySet Name="album" EntityType="Self.album" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="genre" EntityType="Self.genre" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="label" EntityType="Self.label" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="performer" EntityType="Self.performer" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="track" EntityType="Self.track" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="track_genre" EntityType="Self.track_genre" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="user_track" EntityType="Self.user_track" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="users" EntityType="Self.users" Schema="dbo" store:Type="Tables" />
+    <AssociationSet Name="FK_performer_label" Association="Self.FK_performer_label">
+      <End Role="label" EntitySet="label" />
+      <End Role="performer" EntitySet="performer" />
+    </AssociationSet>
+    <AssociationSet Name="FK_track_album" Association="Self.FK_track_album">
+      <End Role="album" EntitySet="album" />
+      <End Role="track" EntitySet="track" />
+    </AssociationSet>
+    <AssociationSet Name="FK_track_genre_genre" Association="Self.FK_track_genre_genre">
+      <End Role="genre" EntitySet="genre" />
+      <End Role="track_genre" EntitySet="track_genre" />
+    </AssociationSet>
+    <AssociationSet Name="FK_track_genre_track" Association="Self.FK_track_genre_track">
+      <End Role="track" EntitySet="track" />
+      <End Role="track_genre" EntitySet="track_genre" />
+    </AssociationSet>
+    <AssociationSet Name="FK_track_performer" Association="Self.FK_track_performer">
+      <End Role="performer" EntitySet="performer" />
+      <End Role="track" EntitySet="track" />
+    </AssociationSet>
+    <AssociationSet Name="FK_user_track_track" Association="Self.FK_user_track_track">
+      <End Role="track" EntitySet="track" />
+      <End Role="user_track" EntitySet="user_track" />
+    </AssociationSet>
+    <AssociationSet Name="FK_user_track_users" Association="Self.FK_user_track_users">
+      <End Role="users" EntitySet="users" />
+      <End Role="user_track" EntitySet="user_track" />
+    </AssociationSet>
+  </EntityContainer>
+</Schema>
